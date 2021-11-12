@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-group 'ru.vasilev'
+group 'com.github.vasilev'
 version '1.0.3'
 
 [compileJava, compileTestJava]*.options.collect { options -> options.encoding = 'UTF-8' }
@@ -30,6 +30,21 @@ publishing {
             version = '1.0.3'
 
             from components.java
+        }
+    }
+}
+
+// To specify a license in the pom:
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
         }
     }
 }
