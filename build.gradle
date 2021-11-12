@@ -3,10 +3,22 @@ plugins {
 }
 
 group 'ru.vasilev'
-version '1.0.0'
+version '1.0.3'
+
+[compileJava, compileTestJava]*.options.collect { options -> options.encoding = 'UTF-8' }
+[compileJava, compileTestJava]*.options.collect { options -> options.debug = true }
+[compileJava, compileTestJava]*.sourceCompatibility = 13
+[compileJava, compileTestJava]*.targetCompatibility = 13
 
 repositories {
     mavenCentral()
+}
+
+task install(type: Copy) {
+    dependsOn subprojects*.tasks*.findByName('build').minus(null)
+    doLast {
+        println "exec install task"
+    }
 }
 
 dependencies {
@@ -18,3 +30,4 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
 
 }
+
