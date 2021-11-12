@@ -1,7 +1,5 @@
-plugins {
-    id 'java'
-    id 'maven-publish'
-}
+apply plugin: 'java'
+apply plugin: 'maven'
 
 group 'com.github.vasilev'
 version '1.0.3'
