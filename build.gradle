@@ -1,5 +1,5 @@
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 group 'com.github.vasilev'
 version '1.0.3'
@@ -23,7 +23,7 @@ task install(type: Copy) {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId = 'ru.vasilev'
+            groupId = 'com.github.vasilev'
             artifactId = 'selenile'
             version = '1.0.3'
 
@@ -33,19 +33,19 @@ publishing {
 }
 
 // To specify a license in the pom:
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
-                }
-            }
-        }
-    }
-}
+//install {
+//    repositories.mavenInstaller {
+//        pom.project {
+//            licenses {
+//                license {
+//                    name 'The Apache Software License, Version 2.0'
+//                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    distribution 'repo'
+//                }
+//            }
+//        }
+//    }
+//}
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
