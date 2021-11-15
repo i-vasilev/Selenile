@@ -14,38 +14,8 @@ repositories {
 }
 
 task install(type: Copy) {
-    dependsOn subprojects*.tasks*.findByName('build').minus(null)
-    doLast {
-        println "exec install task"
-    }
+    dependsOn subprojects*.tasks*.findByName('build')
 }
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId = 'com.github.vasilev'
-            artifactId = 'selenile'
-            version = '1.0.3'
-
-            from components.java
-        }
-    }
-}
-
-// To specify a license in the pom:
-//install {
-//    repositories.mavenInstaller {
-//        pom.project {
-//            licenses {
-//                license {
-//                    name 'The Apache Software License, Version 2.0'
-//                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//                    distribution 'repo'
-//                }
-//            }
-//        }
-//    }
-//}
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
@@ -54,6 +24,5 @@ dependencies {
     implementation 'io.appium:java-client:7.6.0'
     implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
-
 }
 
