@@ -6,11 +6,12 @@ version '1.0.4'
 
 [compileJava, compileTestJava]*.options.collect { options -> options.encoding = 'UTF-8' }
 [compileJava, compileTestJava]*.options.collect { options -> options.debug = true }
-[compileJava, compileTestJava]*.sourceCompatibility = 1.8
-[compileJava, compileTestJava]*.targetCompatibility = 1.8
+[compileJava, compileTestJava]*.sourceCompatibility = JavaVersion.VERSION_11
+[compileJava, compileTestJava]*.targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 task install(type: Copy) {
@@ -27,19 +28,6 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            // Creates a Maven publication called "release".
-            release(MavenPublication) {
-                from components.release
-                groupId = 'com.github.vasilev'
-                artifactId = 'selenile'
-                version = '1.0.4'
-            }
-        }
-    }
-}
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     getArchiveClassifier().set 'sources'
@@ -56,3 +44,14 @@ artifacts {
     archives javadocJar
 }
 
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'com.github.vasilev'
+            artifactId = 'selenile'
+            version = '1.0.4'
+
+            from components.java
+        }
+    }
+}
