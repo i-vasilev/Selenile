@@ -1,13 +1,13 @@
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
-group 'com.github.vasilev'
-version '1.0.3'
+//group 'com.github.vasilev'
+version '1.0.4'
 
 [compileJava, compileTestJava]*.options.collect { options -> options.encoding = 'UTF-8' }
 [compileJava, compileTestJava]*.options.collect { options -> options.debug = true }
-[compileJava, compileTestJava]*.sourceCompatibility = 13
-[compileJava, compileTestJava]*.targetCompatibility = 13
+[compileJava, compileTestJava]*.sourceCompatibility = 1.8
+[compileJava, compileTestJava]*.targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -18,6 +18,7 @@ task install(type: Copy) {
 }
 
 dependencies {
+    implementation "com.android.tools.build:gradle:7.0.2"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     implementation 'org.apache.logging.log4j:log4j-core:2.14.1'
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -26,14 +27,27 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.vasilev'
+                artifactId = 'selenile'
+                version = '1.0.4'
+            }
+        }
+    }
+}
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
+    getArchiveClassifier().set 'sources'
     from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    getArchiveClassifier().set 'javadoc'
     from javadoc.destinationDir
 }
 
@@ -41,3 +55,4 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
+
