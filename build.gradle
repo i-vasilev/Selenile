@@ -1,28 +1,21 @@
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
-group = 'com.github.jitpack'
+//group 'com.github.vasilev'
+//version '1.0.4'
 
-sourceCompatibility = 1.8 // java 8
-targetCompatibility = 1.8
+[compileJava, compileTestJava]*.options.collect { options -> options.encoding = 'UTF-8' }
+[compileJava, compileTestJava]*.options.collect { options -> options.debug = true }
+[compileJava, compileTestJava]*.sourceCompatibility = JavaVersion.VERSION_13
+[compileJava, compileTestJava]*.targetCompatibility = JavaVersion.VERSION_13
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
+task install(type: Copy) {
+    dependsOn subprojects*.tasks*.findByName('build')
 }
 
 dependencies {
@@ -33,32 +26,32 @@ dependencies {
     implementation 'io.appium:java-client:7.6.0'
     implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
-    implementation 'com.google.guava:guava:29.0-jre'
+}
+
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    getArchiveClassifier().set 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    getArchiveClassifier().set 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId = 'com.github.i-vasilev'
+            groupId = 'com.github.vasilev'
             artifactId = 'selenile'
             version = '1.0.4'
 
             from components.java
-        }
-    }
-}
-
-// To specify a license in the pom:
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
-                }
-            }
         }
     }
 }
