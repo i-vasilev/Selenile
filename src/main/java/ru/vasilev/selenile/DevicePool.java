@@ -30,7 +30,9 @@ public abstract class DevicePool {
     /**
      * Default path to nodes configuration.
      */
-    private static final String NODES_CONFIG_PATH = ".\\src\\test\\resources\\node-config\\";
+    private static final String NODES_CONFIG_PATH =
+            "." + File.pathSeparator + "src" + File.pathSeparator + "test" + File.pathSeparator
+                    + "resources" + File.pathSeparator + "node-config" + File.pathSeparator;
 
     /**
      * Devices pool with availability flags.
@@ -110,9 +112,11 @@ public abstract class DevicePool {
         LOGGER.info("Getting available device from pool: {}", POOL);
         for (Map.Entry<Device, Boolean> entry : POOL.entrySet()) {
             if (Boolean.TRUE.equals(entry.getValue())) {
-                LOGGER.info("Available device is found {}.", entry.getKey().getDeviceName());
+                LOGGER.info("Available device is found {}.", entry.getKey()
+                                                                  .getDeviceName());
                 POOL.replace(entry.getKey(), false);
-                LOGGER.info("Device {} is unavailable", entry.getKey().getDeviceName());
+                LOGGER.info("Device {} is unavailable", entry.getKey()
+                                                             .getDeviceName());
                 return entry.getKey();
             }
         }
@@ -151,8 +155,8 @@ public abstract class DevicePool {
      */
     private static String getNodeFilesPath() {
         return NODES_CONFIG_PATH + MobileDriverProvider.getMobileSystemType()
-                                                                    .toString()
-                                                                    .toLowerCase();
+                                                       .toString()
+                                                       .toLowerCase();
     }
 
     /**
