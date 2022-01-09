@@ -30,7 +30,7 @@ public abstract class DevicePool {
     /**
      * Default path to nodes configuration.
      */
-    private static final String NODES_CONFIG_PATH = "/nodes-config/";
+    private static final String NODES_CONFIG_PATH = "./src/test/resources/node-config/";
 
     /**
      * Devices pool with availability flags.
@@ -150,11 +150,9 @@ public abstract class DevicePool {
      * @return Node configurations files path
      */
     private static String getNodeFilesPath() {
-        final String path = NODES_CONFIG_PATH + MobileDriverProvider.getMobileSystemType()
+        return NODES_CONFIG_PATH + MobileDriverProvider.getMobileSystemType()
                                                                     .toString()
                                                                     .toLowerCase();
-        return DevicePool.class.getResource(path)
-                               .getPath();
     }
 
     /**
